@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Daisy Doodles – Stationery Shop</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #fdf8f2;
+      --blush: #f5d9d0;
+      --rose: #e8a090;
+      --deep: #7a3e35;
+      --sage: #a3b899;
+      --gold: #d4a853;
+      --ink: #2c1f1a;
+      --soft: #f9f0e8;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 4rem;
+      background: rgba(253,248,242,0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(212,168,83,0.2);
+      animation: fadeDown 0.8s ease both;
+    }
+    @keyframes fadeDown { from { opacity:0; transform:translateY(-20px); } to { opacity:1; transform:translateY(0); } }
+
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      color: var(--deep);
+      letter-spacing: 0.02em;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .logo span { color: var(--gold); }
+    .logo-flower { font-size: 1.4rem; }
+
+    nav ul { list-style: none; display: flex; gap: 2.5rem; }
+    nav ul a {
+      text-decoration: none; color: var(--ink); font-size: 0.88rem;
+      font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase;
+      position: relative; padding-bottom: 4px;
+      transition: color 0.3s;
+    }
+    nav ul a::after {
+      content: ''; position: absolute; bottom: 0; left: 0;
+      width: 0; height: 1.5px; background: var(--rose);
+      transition: width 0.3s ease;
+    }
+    nav ul a:hover { color: var(--deep); }
+    nav ul a:hover::after { width: 100%; }
+
+    .nav-cta {
+      background: var(--deep); color: var(--cream) !important;
+      padding: 0.6rem 1.4rem; border-radius: 50px;
+      transition: background 0.3s, transform 0.2s !important;
+    }
+    .nav-cta:hover { background: var(--rose) !important; transform: scale(1.04); }
+    .nav-cta::after { display: none !important; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: grid; grid-template-columns: 1fr 1fr;
+      align-items: center; gap: 2rem;
+      padding: 8rem 4rem 4rem;
+      position: relative; overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute; inset: 0; z-index: 0;
+      background:
+        radial-gradient(ellipse 60% 60% at 80% 30%, rgba(245,217,208,0.5) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 10% 80%, rgba(163,184,153,0.25) 0%, transparent 60%);
+    }
+
+    .hero-dots {
+      position: absolute; inset: 0; z-index: 0;
+      background-image: radial-gradient(circle, rgba(212,168,83,0.15) 1px, transparent 1px);
+      background-size: 30px 30px;
+    }
+
+    .hero-text { position: relative; z-index: 1; animation: fadeLeft 0.9s 0.3s ease both; }
+    @keyframes fadeLeft { from { opacity:0; transform:translateX(-30px); } to { opacity:1; transform:translateX(0); } }
+
+    .hero-badge {
+      display: inline-block; background: var(--blush);
+      color: var(--deep); font-size: 0.78rem; font-weight: 500;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 0.4rem 1rem; border-radius: 50px;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.8rem, 5vw, 4.2rem);
+      line-height: 1.15;
+      color: var(--ink);
+      margin-bottom: 1.5rem;
+    }
+    .hero h1 em { color: var(--rose); font-style: italic; }
+
+    .hero p {
+      font-size: 1.05rem; color: #6b5047; line-height: 1.8;
+      max-width: 420px; margin-bottom: 2.5rem;
+    }
+
+    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+    .btn-primary {
+      background: var(--deep); color: var(--cream);
+      padding: 0.85rem 2rem; border-radius: 50px;
+      text-decoration: none; font-weight: 500; font-size: 0.92rem;
+      letter-spacing: 0.04em;
+      transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+      box-shadow: 0 6px 20px rgba(122,62,53,0.3);
+    }
+    .btn-primary:hover { background: var(--rose); transform: translateY(-2px); box-shadow: 0 10px 28px rgba(232,160,144,0.4); }
+
+    .btn-secondary {
+      border: 1.5px solid var(--deep); color: var(--deep);
+      padding: 0.85rem 2rem; border-radius: 50px;
+      text-decoration: none; font-weight: 500; font-size: 0.92rem;
+      letter-spacing: 0.04em;
+      transition: all 0.3s;
+    }
+    .btn-secondary:hover { background: var(--blush); transform: translateY(-2px); }
+
+    /* Hero illustration */
+    .hero-visual {
+      position: relative; z-index: 1;
+      display: flex; justify-content: center; align-items: center;
+      animation: fadeRight 0.9s 0.5s ease both;
+    }
+    @keyframes fadeRight { from { opacity:0; transform:translateX(30px); } to { opacity:1; transform:translateX(0); } }
+
+    .hero-card {
+      background: white;
+      border-radius: 24px;
+      padding: 2.5rem;
+      box-shadow: 0 20px 60px rgba(122,62,53,0.12), 0 4px 16px rgba(0,0,0,0.06);
+      max-width: 380px; width: 100%;
+      position: relative;
+    }
+    .hero-card::before {
+      content: '';
+      position: absolute; top: -12px; right: -12px;
+      width: 100%; height: 100%;
+      border: 2px dashed var(--blush); border-radius: 24px;
+      z-index: -1;
+    }
+
+    .product-grid-mini {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 1rem; margin-bottom: 1.5rem;
+    }
+
+    .mini-card {
+      background: var(--soft); border-radius: 14px;
+      padding: 1rem; text-align: center;
+      transition: transform 0.3s;
+    }
+    .mini-card:hover { transform: translateY(-4px); }
+    .mini-card .emoji { font-size: 2.2rem; display: block; margin-bottom: 0.4rem; }
+    .mini-card p { font-size: 0.78rem; color: var(--deep); font-weight: 500; }
+
+    .hero-tag {
+      display: flex; align-items: center; gap: 0.8rem;
+      background: var(--blush); border-radius: 12px; padding: 0.8rem 1rem;
+    }
+    .hero-tag .tag-icon { font-size: 1.4rem; }
+    .hero-tag div p:first-child { font-size: 0.88rem; font-weight: 500; color: var(--deep); }
+    .hero-tag div p:last-child { font-size: 0.75rem; color: #a06060; }
+
+    /* ── MARQUEE ── */
+    .marquee-wrap {
+      background: var(--deep); padding: 0.9rem 0; overflow: hidden;
+    }
+    .marquee-track {
+      display: flex; gap: 3rem;
+      animation: marquee 20s linear infinite;
+      white-space: nowrap;
+    }
+    .marquee-track span {
+      color: var(--cream); font-size: 0.82rem;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      display: flex; align-items: center; gap: 1rem;
+    }
+    .marquee-track span::after { content: '✦'; color: var(--gold); }
+    @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+    /* ── SECTION SHARED ── */
+    section { padding: 6rem 4rem; }
+    .section-label {
+      font-size: 0.78rem; font-weight: 500; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--rose);
+      margin-bottom: 0.8rem;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 3.5vw, 2.8rem);
+      color: var(--ink); line-height: 1.25;
+      margin-bottom: 1rem;
+    }
+
+    /* ── CATEGORIES ── */
+    .categories { background: var(--soft); }
+    .categories-header { text-align: center; margin-bottom: 3.5rem; }
+    .categories-header p { color: #7a6058; max-width: 480px; margin: 0 auto; line-height: 1.7; }
+
+    .cat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .cat-card {
+      background: white; border-radius: 20px;
+      padding: 2rem 1.5rem; text-align: center;
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer; position: relative; overflow: hidden;
+    }
+    .cat-card::before {
+      content: ''; position: absolute;
+      bottom: 0; left: 0; right: 0; height: 4px;
+      background: var(--rose); transform: scaleX(0);
+      transition: transform 0.3s; transform-origin: left;
+    }
+    .cat-card:hover { transform: translateY(-6px); box-shadow: 0 16px 40px rgba(122,62,53,0.1); }
+    .cat-card:hover::before { transform: scaleX(1); }
+    .cat-icon { font-size: 2.8rem; margin-bottom: 1rem; display: block; }
+    .cat-card h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; margin-bottom: 0.4rem; }
+    .cat-card p { font-size: 0.8rem; color: #9e7a6e; }
+
+    /* ── FEATURED PRODUCTS ── */
+    .products-header {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      margin-bottom: 3rem; flex-wrap: wrap; gap: 1rem;
+    }
+    .products-header a {
+      color: var(--rose); text-decoration: none; font-size: 0.9rem;
+      font-weight: 500; display: flex; align-items: center; gap: 0.4rem;
+      border-bottom: 1px solid var(--rose);
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 2rem;
+    }
+
+    .product-card {
+      background: white; border-radius: 20px; overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .product-card:hover { transform: translateY(-8px); box-shadow: 0 20px 50px rgba(122,62,53,0.12); }
+
+    .product-img {
+      height: 200px; display: flex; align-items: center; justify-content: center;
+      font-size: 4rem; position: relative;
+    }
+    .product-img.pink  { background: linear-gradient(135deg, #fde8e4, #f5d0c8); }
+    .product-img.sage  { background: linear-gradient(135deg, #ddebd6, #c4d9bc); }
+    .product-img.gold  { background: linear-gradient(135deg, #fef1d6, #f2dda0); }
+    .product-img.blue  { background: linear-gradient(135deg, #d6e8f5, #b8d4ea); }
+
+    .badge {
+      position: absolute; top: 12px; right: 12px;
+      background: var(--deep); color: white;
+      font-size: 0.7rem; font-weight: 600; padding: 0.3rem 0.7rem;
+      border-radius: 50px; letter-spacing: 0.05em;
+    }
+    .badge.new  { background: var(--sage); color: var(--ink); }
+    .badge.sale { background: var(--rose); }
+
+    .product-info { padding: 1.4rem; }
+    .product-info h3 { font-family: 'Playfair Display', serif; font-size: 1.05rem; margin-bottom: 0.3rem; }
+    .product-info .sub { font-size: 0.8rem; color: #a08070; margin-bottom: 0.8rem; }
+    .product-footer { display: flex; justify-content: space-between; align-items: center; }
+    .price { font-size: 1.1rem; font-weight: 600; color: var(--deep); }
+    .price .original { font-size: 0.85rem; color: #bbb; text-decoration: line-through; margin-right: 0.4rem; font-weight: 400; }
+
+    .add-btn {
+      background: var(--blush); color: var(--deep);
+      border: none; border-radius: 50%; width: 36px; height: 36px;
+      font-size: 1.2rem; cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .add-btn:hover { background: var(--rose); color: white; transform: scale(1.1); }
+
+    /* ── BANNER ── */
+    .banner {
+      background: linear-gradient(135deg, var(--deep) 0%, #a05040 100%);
+      border-radius: 28px; padding: 4rem;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 2rem; flex-wrap: wrap; margin: 0 4rem;
+    }
+    .banner-text h2 {
+      font-family: 'Playfair Display', serif; font-size: 2.2rem;
+      color: white; line-height: 1.3; margin-bottom: 1rem;
+    }
+    .banner-text h2 em { color: var(--gold); font-style: italic; }
+    .banner-text p { color: rgba(255,255,255,0.75); max-width: 380px; line-height: 1.7; }
+    .banner-form { display: flex; gap: 0.8rem; flex-wrap: wrap; }
+    .banner-form input {
+      padding: 0.85rem 1.4rem; border-radius: 50px; border: none;
+      background: rgba(255,255,255,0.15); color: white;
+      font-size: 0.9rem; outline: none; min-width: 240px;
+    }
+    .banner-form input::placeholder { color: rgba(255,255,255,0.55); }
+    .banner-form button {
+      background: var(--gold); color: var(--ink);
+      border: none; padding: 0.85rem 1.8rem; border-radius: 50px;
+      font-weight: 600; font-size: 0.9rem; cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+    }
+    .banner-form button:hover { background: #e8ba60; transform: scale(1.03); }
+
+    /* ── TESTIMONIALS ── */
+    .testimonials { background: var(--soft); }
+    .testimonials-header { text-align: center; margin-bottom: 3.5rem; }
+
+    .testi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+
+    .testi-card {
+      background: white; border-radius: 20px; padding: 2rem;
+      position: relative;
+    }
+    .testi-card::before { content: '"'; font-family: 'Playfair Display', serif; font-size: 5rem; color: var(--blush); line-height: 1; position: absolute; top: 0.5rem; right: 1.5rem; }
+    .stars { color: var(--gold); font-size: 0.9rem; margin-bottom: 1rem; letter-spacing: 2px; }
+    .testi-card p { font-size: 0.92rem; color: #6b5047; line-height: 1.8; margin-bottom: 1.5rem; }
+    .testi-author { display: flex; align-items: center; gap: 0.8rem; }
+    .avatar { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+    .avatar.a1 { background: var(--blush); }
+    .avatar.a2 { background: #d6e8f5; }
+    .avatar.a3 { background: #ddebd6; }
+    .testi-author strong { font-size: 0.88rem; }
+    .testi-author span { font-size: 0.76rem; color: #a08070; }
+
+    /* ── WHY US ── */
+    .why { text-align: center; }
+    .why-header { margin-bottom: 3.5rem; }
+    .why-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2rem; }
+    .why-card { padding: 2rem 1.5rem; }
+    .why-icon { font-size: 2.4rem; margin-bottom: 1rem; display: block; }
+    .why-card h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; margin-bottom: 0.6rem; }
+    .why-card p { font-size: 0.86rem; color: #8a6a60; line-height: 1.7; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--ink); color: rgba(255,255,255,0.75);
+      padding: 4rem;
+    }
+    .footer-top {
+      display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      gap: 3rem; margin-bottom: 3rem;
+    }
+    .footer-brand .logo { color: var(--cream); margin-bottom: 1rem; font-size: 1.4rem; }
+    .footer-brand p { font-size: 0.86rem; line-height: 1.8; max-width: 240px; }
+    .footer-col h4 {
+      color: white; font-size: 0.85rem; letter-spacing: 0.1em;
+      text-transform: uppercase; margin-bottom: 1.2rem;
+    }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 0.6rem; }
+    .footer-col ul a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.86rem; transition: color 0.3s; }
+    .footer-col ul a:hover { color: var(--rose); }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 1.5rem; display: flex; justify-content: space-between;
+      align-items: center; flex-wrap: wrap; gap: 1rem;
+    }
+    .footer-bottom p { font-size: 0.82rem; }
+    .socials { display: flex; gap: 1rem; }
+    .socials a {
+      width: 36px; height: 36px; border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.2);
+      display: flex; align-items: center; justify-content: center;
+      text-decoration: none; font-size: 0.9rem;
+      transition: background 0.3s, border-color 0.3s;
+    }
+    .socials a:hover { background: var(--rose); border-color: var(--rose); }
+
+    /* ── SCROLL ANIMATIONS ── */
+    .reveal {
+      opacity: 0; transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 900px) {
+      nav { padding: 1rem 2rem; }
+      nav ul { display: none; }
+      .hero { grid-template-columns: 1fr; padding: 7rem 2rem 3rem; }
+      .hero-visual { display: none; }
+      section { padding: 4rem 2rem; }
+      .banner { margin: 0 2rem; padding: 2.5rem 2rem; }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo"><span class="logo-flower">🌼</span> Daisy <span>Doodles</span></div>
+  <ul>
+    <li><a href="#categories">Shop</a></li>
+    <li><a href="#products">New Arrivals</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#" class="nav-cta">🛒 Cart</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-dots"></div>
+  <div class="hero-text">
+    <div class="hero-badge">✨ New Collection 2025</div>
+    <h1>Where Every Note Becomes <em>Beautiful</em></h1>
+    <p>Discover handpicked stationery that sparks creativity — from dreamy journals to artisan pens, we have everything a paper lover's heart desires.</p>
+    <div class="hero-btns">
+      <a href="#products" class="btn-primary">Shop Now →</a>
+      <a href="#categories" class="btn-secondary">Browse Collections</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-card">
+      <div class="product-grid-mini">
+        <div class="mini-card"><span class="emoji">📒</span><p>Journals</p></div>
+        <div class="mini-card"><span class="emoji">🖊️</span><p>Fine Pens</p></div>
+        <div class="mini-card"><span class="emoji">🎨</span><p>Art Sets</p></div>
+        <div class="mini-card"><span class="emoji">✉️</span><p>Gift Cards</p></div>
+      </div>
+      <div class="hero-tag">
+        <span class="tag-icon">🚚</span>
+        <div>
+          <p>Free Shipping</p>
+          <p>On orders above ₹499</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span>Free Shipping Over ₹499</span>
+    <span>Handpicked Stationery</span>
+    <span>New Arrivals Weekly</span>
+    <span>Gift Wrapping Available</span>
+    <span>100% Customer Love</span>
+    <span>Free Shipping Over ₹499</span>
+    <span>Handpicked Stationery</span>
+    <span>New Arrivals Weekly</span>
+    <span>Gift Wrapping Available</span>
+    <span>100% Customer Love</span>
+  </div>
+</div>
+
+<!-- CATEGORIES -->
+<section class="categories" id="categories">
+  <div class="categories-header reveal">
+    <div class="section-label">Browse by Category</div>
+    <h2 class="section-title">Everything You Love to Write With</h2>
+    <p>Find your perfect stationery match from our curated collections, designed for students, artists, and dreamers.</p>
+  </div>
+  <div class="cat-grid">
+    <div class="cat-card reveal"><span class="cat-icon">📓</span><h3>Notebooks</h3><p>Ruled, dotted & blank</p></div>
+    <div class="cat-card reveal"><span class="cat-icon">🖊️</span><h3>Pens & Markers</h3><p>From gel to brush pens</p></div>
+    <div class="cat-card reveal"><span class="cat-icon">📌</span><h3>Desk Essentials</h3><p>Organizers & more</p></div>
+    <div class="cat-card reveal"><span class="cat-icon">🎀</span><h3>Gift Sets</h3><p>Beautifully wrapped</p></div>
+    <div class="cat-card reveal"><span class="cat-icon">🖍️</span><h3>Art Supplies</h3><p>Watercolors & sketching</p></div>
+    <div class="cat-card reveal"><span class="cat-icon">📅</span><h3>Planners</h3><p>Daily & weekly layouts</p></div>
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section id="products">
+  <div class="products-header reveal">
+    <div>
+      <div class="section-label">Featured Products</div>
+      <h2 class="section-title">Our Best Sellers</h2>
+    </div>
+    <a href="#">View all products →</a>
+  </div>
+  <div class="products-grid">
+    <div class="product-card reveal">
+      <div class="product-img pink"><span>📔</span><span class="badge new">New</span></div>
+      <div class="product-info">
+        <h3>Floral Hardcover Journal</h3>
+        <div class="sub">A5 · 200 pages · Ruled</div>
+        <div class="product-footer">
+          <div class="price">₹349</div>
+          <button class="add-btn">+</button>
+        </div>
+      </div>
+    </div>
+    <div class="product-card reveal">
+      <div class="product-img sage"><span>🖊️</span><span class="badge sale">Sale</span></div>
+      <div class="product-info">
+        <h3>Pastel Gel Pen Set</h3>
+        <div class="sub">12 colors · 0.5mm tip</div>
+        <div class="product-footer">
+          <div class="price"><span class="original">₹299</span>₹219</div>
+          <button class="add-btn">+</button>
+        </div>
+      </div>
+    </div>
+    <div class="product-card reveal">
+      <div class="product-img gold"><span>📅</span></div>
+      <div class="product-info">
+        <h3>Daisy Weekly Planner</h3>
+        <div class="sub">Undated · 52 weeks</div>
+        <div class="product-footer">
+          <div class="price">₹449</div>
+          <button class="add-btn">+</button>
+        </div>
+      </div>
+    </div>
+    <div class="product-card reveal">
+      <div class="product-img blue"><span>🎀</span><span class="badge new">New</span></div>
+      <div class="product-info">
+        <h3>Starter Gift Box</h3>
+        <div class="sub">Journal + Pens + Stickers</div>
+        <div class="product-footer">
+          <div class="price">₹699</div>
+          <button class="add-btn">+</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BANNER -->
+<div style="padding: 0 0 6rem;">
+  <div class="banner reveal">
+    <div class="banner-text">
+      <h2>Get <em>10% Off</em> Your First Order</h2>
+      <p>Subscribe to our newsletter and be the first to know about new arrivals, exclusive offers, and stationery inspiration.</p>
+    </div>
+    <div class="banner-form">
+      <input type="email" placeholder="Enter your email address"/>
+      <button>Subscribe ✦</button>
+    </div>
+  </div>
+</div>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <div class="testimonials-header reveal">
+    <div class="section-label">Happy Customers</div>
+    <h2 class="section-title">Words That Warm Our Hearts</h2>
+  </div>
+  <div class="testi-grid">
+    <div class="testi-card reveal">
+      <div class="stars">★★★★★</div>
+      <p>The floral journal is absolutely gorgeous! The paper quality is amazing and the design makes journaling so much more enjoyable.</p>
+      <div class="testi-author">
+        <div class="avatar a1">😊</div>
+        <div><strong>Priya Menon</strong><br><span>Chennai</span></div>
+      </div>
+    </div>
+    <div class="testi-card reveal">
+      <div class="stars">★★★★★</div>
+      <p>Fast delivery, beautiful packaging. The gift box was perfect for my friend's birthday — she absolutely loved every single item!</p>
+      <div class="testi-author">
+        <div class="avatar a2">🌸</div>
+        <div><strong>Riya Sharma</strong><br><span>Bangalore</span></div>
+      </div>
+    </div>
+    <div class="testi-card reveal">
+      <div class="stars">★★★★★</div>
+      <p>I've been ordering from Daisy Doodles for a year now. The pastel pens are my absolute favorite — smooth and so pretty!</p>
+      <div class="testi-author">
+        <div class="avatar a3">✏️</div>
+        <div><strong>Ananya R.</strong><br><span>Pondicherry</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY US -->
+<section class="why" id="about">
+  <div class="why-header reveal">
+    <div class="section-label">Why Daisy Doodles</div>
+    <h2 class="section-title">More Than Just Stationery</h2>
+  </div>
+  <div class="why-grid">
+    <div class="why-card reveal"><span class="why-icon">🌼</span><h3>Handpicked Selection</h3><p>Every product is carefully chosen for quality, beauty, and joy.</p></div>
+    <div class="why-card reveal"><span class="why-icon">🚚</span><h3>Fast Delivery</h3><p>Get your stationery delivered quickly with safe packaging.</p></div>
+    <div class="why-card reveal"><span class="why-icon">🎀</span><h3>Gift Wrapping</h3><p>Beautiful gift wrapping available for all orders — perfect for gifting.</p></div>
+    <div class="why-card reveal"><span class="why-icon">💌</span><h3>Loyalty Rewards</h3><p>Earn doodle points on every order and redeem for discounts.</p></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="logo"><span class="logo-flower">🌼</span> Daisy <span>Doodles</span></div>
+      <p>Curated stationery for everyone who loves beautiful things. Making every write moment magical.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Shop</h4>
+      <ul>
+        <li><a href="#">Notebooks</a></li>
+        <li><a href="#">Pens & Markers</a></li>
+        <li><a href="#">Planners</a></li>
+        <li><a href="#">Gift Sets</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Help</h4>
+      <ul>
+        <li><a href="#">Track Order</a></li>
+        <li><a href="#">Returns</a></li>
+        <li><a href="#">FAQ</a></li>
+        <li><a href="#">Contact Us</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="#">📧 hello@daisydoodles.in</a></li>
+        <li><a href="#">📞 +91 98765 43210</a></li>
+        <li><a href="#">📍 Pondicherry, India</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Daisy Doodles. All rights reserved. Made with 🌼</p>
+    <div class="socials">
+      <a href="#">📸</a>
+      <a href="#">🐦</a>
+      <a href="#">📘</a>
+      <a href="#">▶️</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(r => io.observe(r));
+
+  // Cart button feedback
+  document.querySelectorAll('.add-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      this.textContent = '✓';
+      this.style.background = 'var(--sage)';
+      this.style.color = 'white';
+      setTimeout(() => { this.textContent = '+'; this.style.background = ''; this.style.color = ''; }, 1200);
+    });
+  });
+</script>
+</body>
+</html>
